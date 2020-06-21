@@ -128,7 +128,8 @@ int timeout = 6;
                     // Status Ventilador OFF
                     Ventilador = 0;
                     // LED pin 4 OFF
-                    GPIO_PORTM_DATA_R &= ~0B00010000;
+                    GPIO_PORTM_DATA_R |= 0B00010000;
+                    GPIO_PORTM_DATA_R ^= 0B00010000;
             }
 
     // Control VALVULA - APERTURA Y CERRADO
@@ -192,7 +193,8 @@ int timeout = 6;
                         // Status Valvula OFF
                         Valvula = 0;
                         // Apagado de LED pin 3
-                        GPIO_PORTM_DATA_R &= ~0B00001000;
+                        GPIO_PORTM_DATA_R |= 0B00001000;
+                        GPIO_PORTM_DATA_R ^= 0B00001000;
                 }
                 else
                 {
@@ -388,6 +390,8 @@ int timeout = 6;
                 cerrar_valvula();
                 Sistema = 0;
                 UART0_AVISO_SISTEMA(0);
+                GPIO_PORTM_DATA_R |= 0b0100000;
+                GPIO_PORTM_DATA_R ^= 0b0100000;
             }
         void EncendidoTotal (void) // Recopilación de encendidos
             {
@@ -400,6 +404,7 @@ int timeout = 6;
                 config_puertos_timers();
                 Sistema = 1;
                 UART0_AVISO_SISTEMA(1);
+                GPIO_PORTM_DATA_R |= 0b0100000;
             }
 
     // INTERRUPCIONES DEL SISTEMA
@@ -1077,13 +1082,11 @@ int timeout = 6;
         if(led_Sistema == 1)
         {
             //Si nuestro sistema esta encendido entonces:-
-            switch(led_T)
-            {
                 //Dependiendo del valor de temperatura se decidira que led indicador de temperatura se encendera en conjunto con sus diferentes casos:
-                case 0: //Si led_T=0 significa que la temperatura es baja
-
-                    // Led Temperatura baja ON
-                    GPIO_PORTM_DATA_R = 1;
+                if(led_T == 0) //Si led_T=0 significa que la temperatura es baja
+                {
+                    // Leds
+                    GPIO_PORTM_DATA_R |= 0b0000111;
 
                     if(led_Valv==0 && led_Vent==0)
                         {//Valvula OFF, Ventilador OFF:
@@ -1098,10 +1101,13 @@ int timeout = 6;
                             off_ventilador();
                             abrir_valvula();
                         }
-                case 1: //Si led_T=1 significa que la temperatura es estable
-
-                    // Led Temperatura estable ON
-                    GPIO_PORTM_DATA_R = 2;
+                    // Led 2 ON
+                    GPIO_PORTM_DATA_R ^= 0b0000011;
+                }
+                if(led_T == 1) //Si led_T=1 significa que la temperatura es estable
+                {
+                    // Leds
+                    GPIO_PORTM_DATA_R |= 0b0000111;
 
                     if(led_Valv==0 && led_Vent==0)
                         {//Si la valvula y el ventilador estan apagados entonces:
@@ -1116,10 +1122,13 @@ int timeout = 6;
                             //Off_ventilador();
                             // NOTA: se podria apagar el ventilador, pero debido a que por condiciones del diseño tiene que estar priendido hasta que la temperatura llegue a bajo, entonces tampoco se hace nada
                         }
-                case 2: //Si led_T=2 significa que la temperatura es alta
-
-                    // Led temperatura alta ON
-                    GPIO_PORTM_DATA_R = 3;
+                    // Led 1 ON
+                    GPIO_PORTM_DATA_R ^= 0b0000101;
+                }
+                if(led_T == 2) //Si led_T=2 significa que la temperatura es alta
+                {
+                    // Leds
+                    GPIO_PORTM_DATA_R |= 0b0000111;
 
                     if(led_Valv==0 && led_Vent==0)
                     {//Valvula OFF, Ventilador OFF:
@@ -1134,10 +1143,9 @@ int timeout = 6;
                     {//Valvula OFF, Ventilador ON:
                         // No hacemos nada
                     }
-
-                default://Si el sistema está encendido pero se da otro caso fuera de lo contemplado
-                x ^= 0b01;//GPIO_PORTM_DATA_R = 0B000111;// Mensaje de error prendiendo todos los leds de temperatura al mismo tiempo
-            }
+                    // LED 0 ON
+                    GPIO_PORTM_DATA_R ^= 0b0000110;
+                }
         }
         if(led_Sistema == 0)
         {
