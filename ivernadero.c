@@ -1,4 +1,4 @@
-/* DESCRIPCION DEL PROGRAMA
+﻿/* DESCRIPCION DEL PROGRAMA
 
   Control de Ivernadero
 
@@ -18,6 +18,37 @@
 #define ValPLLFREQ0 0X00800060;
 #define ValPLLFREQ1 0X00000004;
 
+// FUNCIONES DECLARADAS
+void UART0_AVISO_VENTILADOR(int Value);
+void apagado(void);
+void config_puertos_timers(void);
+void on_ventilador(void);
+void off_ventilador(void);
+void pasos_2(void);
+void giro_1(int np);
+void giro_2(int np);
+void abrir_valvula(void);
+void cerrar_valvula(void);
+void EncenderLM35(void);
+int ReadSensorValue(void);
+int SendValue(int ValorADC,int deadband);
+void setclock (int timeClock);
+void setportsGPIO (void);
+void confT4 (void);
+void ParametrosIniciales(void);
+void ApagadoTotal (void);
+void EncendidoTotal (void);
+void TMR4 (void);
+void HandlerJ(void);
+void Encendido_RS32(void);
+void UART0_dato(char dato);
+void IMP_NOMBRES(void);
+void UART0_AVISO_SISTEMA(int Value);
+void UART0_AVISO_VENTILADOR(int Value);
+void UART0_AVISO_VALVULA(int Value);
+void UART0_AVISO_TEMP(int Value);
+void config_puertos_leds(void);
+void Control_con_leds(int led_Vent,int led_Valv,int led_T, int led_Sistema);
 
 /* VARIABLES
  *
@@ -25,7 +56,9 @@
 
 uint32_t Lectura, LecturaB, DATO32BIT, g_ui32SysClock, Ventilador, Valvula,Sistema ;
 uint8_t DATO8BIT;
-int a, b, numero_pasos = 0, timeout = 6, ;
+int a, b, x;
+int numero_pasos = 0;
+int timeout = 6;
 
 
 // ****JOSHUA TEAM CODE
@@ -88,11 +121,10 @@ int a, b, numero_pasos = 0, timeout = 6, ;
             {
                 // Funciones de control
                     TIMER3_CTL_R &= 0X00000000;//deshabilita el timer-pwm
-                    hola
                     apagado();
                 // Funciones de registro
                     // Aviso ventilador OFF
-                    UART0_AVISO_VENTILADOR(1);
+                    UART0_AVISO_VENTILADOR(0);
                     // Status Ventilador OFF
                     Ventilador = 0;
                     // LED pin 4 OFF
@@ -125,7 +157,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 SysCtlDelay(40000);
             }
         // Giro de la valvula
-        void giro_1(np)
+        void giro_1(int np)
             {
                 while(np>numero_pasos)
                 {
@@ -135,7 +167,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 numero_pasos=0;
                 apagado();
             }
-        void giro_2(np)
+        void giro_2(int np)
             {
                 while(np>numero_pasos)
                 {
@@ -146,7 +178,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 apagado();
             }
         // Apagado válvula
-        void cerrar_valvula()
+        void cerrar_valvula(void)
             {
                 // Control para operacion accidental
                 if(Valvula == 1)
@@ -169,7 +201,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 }
             }
         // Apertura valvula
-        void abrir_valvula()
+        void abrir_valvula(void)
             {
                 // Control para operacion accidental
                 if(Valvula == 0)
@@ -199,7 +231,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                         apagado();
                     // Instrucciones de registro
                         // Aviso de valvula abierta
-                        UART0_AVISO_VALVULA(4);
+                        UART0_AVISO_VALVULA(6);
                         // Status Valvula ON
                         Valvula = 1;
                         // Prendido de LED pin 3
@@ -208,7 +240,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 else
                 {
                     // Aviso de valvula ya abierta
-                        UART0_AVISO_VALVULA(4);
+                        UART0_AVISO_VALVULA(6);
                 }
             }
 
@@ -436,7 +468,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
         }
 
     // Envio de dato de caracter a la terminal
-    void UART0_dato(char dato[])
+    void UART0_dato(char dato)
     {
         while ( (UART0_FR_R&0X0020)!=0 ); // espera a que TXFF sea cero, nos indica si estamos enviando un dato
         UART0_DR_R= dato;
@@ -701,7 +733,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
             UART0_dato('o');
             UART0_dato(';');
             UART0_dato(' ');
-            UART0_dato(0x0D)
+            UART0_dato(0x0D);
         }
     }
 
@@ -813,7 +845,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
     {
         while ((UART0_FR_R&0X0020)!=0); // espera a que TXFF sea cero
         {
-            if (Value == 0x00)
+            if (Value == 0)
             {
                 UART0_dato('V');
                 UART0_dato('a');
@@ -833,7 +865,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 UART0_dato(';');
                 UART0_dato(0x0D);
             }
-            if (Value == 0x1)
+            if (Value == 1)
             {
                 UART0_dato('A');
                 UART0_dato('b');
@@ -854,7 +886,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 UART0_dato(';');
                 UART0_dato(0x0D);
             }
-            if (Value == 0x02)
+            if (Value == 2)
             {
                 UART0_dato('V');
                 UART0_dato('a');
@@ -874,7 +906,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 UART0_dato(';');
                 UART0_dato(0x0D);
             }
-            if(Value == 0x03)
+            if(Value == 3)
             {
                 UART0_dato('V');
                 UART0_dato('a');
@@ -894,7 +926,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 UART0_dato(';');
                 UART0_dato(0x0D);
             }
-            if (Value==0x04)
+            if (Value == 4)
             {
                 UART0_dato('V');
                 UART0_dato('a');
@@ -914,7 +946,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 UART0_dato(';');
                 UART0_dato(0x0D);
             }
-            if (Value==0x05)
+            if (Value == 5)
             {
                 UART0_dato('V');
                 UART0_dato('a');
@@ -931,6 +963,26 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 UART0_dato('0');
                 UART0_dato('0');
                 UART0_dato('%');
+                UART0_dato(';');
+                UART0_dato(0x0D);
+            }
+            if (Value == 6)
+            {
+                UART0_dato('V');
+                UART0_dato('a');
+                UART0_dato('l');
+                UART0_dato('v');
+                UART0_dato('u');
+                UART0_dato('l');
+                UART0_dato('a');
+                UART0_dato(' ');
+                UART0_dato('a');
+                UART0_dato('b');
+                UART0_dato('i');
+                UART0_dato('e');
+                UART0_dato('r');
+                UART0_dato('t');
+                UART0_dato('a');
                 UART0_dato(';');
                 UART0_dato(0x0D);
             }
@@ -1031,7 +1083,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 case 0: //Si led_T=0 significa que la temperatura es baja
 
                     // Led Temperatura baja ON
-                    GPIO_PORTM_DATA_R = 0B0000001;
+                    GPIO_PORTM_DATA_R = 1;
 
                     if(led_Valv==0 && led_Vent==0)
                         {//Valvula OFF, Ventilador OFF:
@@ -1049,7 +1101,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 case 1: //Si led_T=1 significa que la temperatura es estable
 
                     // Led Temperatura estable ON
-                    GPIO_PORTM_DATA_R = 0B0000010;
+                    GPIO_PORTM_DATA_R = 2;
 
                     if(led_Valv==0 && led_Vent==0)
                         {//Si la valvula y el ventilador estan apagados entonces:
@@ -1067,7 +1119,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                 case 2: //Si led_T=2 significa que la temperatura es alta
 
                     // Led temperatura alta ON
-                    GPIO_PORTM_DATA_R = 0B00000100;
+                    GPIO_PORTM_DATA_R = 3;
 
                     if(led_Valv==0 && led_Vent==0)
                     {//Valvula OFF, Ventilador OFF:
@@ -1084,7 +1136,7 @@ int a, b, numero_pasos = 0, timeout = 6, ;
                     }
 
                 default://Si el sistema está encendido pero se da otro caso fuera de lo contemplado
-                GPIO_PORTM_DATA_R = 0B000111;// Mensaje de error prendiendo todos los leds de temperatura al mismo tiempo
+                x ^= 0b01;//GPIO_PORTM_DATA_R = 0B000111;// Mensaje de error prendiendo todos los leds de temperatura al mismo tiempo
             }
         }
         if(led_Sistema == 0)
@@ -1111,12 +1163,12 @@ int a, b, numero_pasos = 0, timeout = 6, ;
             while(1)
             {
                 // Lectura del sensor
-                Lectura = SendValue(ReadSensorValue(),6);  // Lectura -> 1   LecturaB -> 1
+                Lectura = SendValue(ReadSensorValue(),2);  // Lectura -> 1   LecturaB -> 1
                 // Bucle de cambio de estado
                 if (Lectura != LecturaB)
                 {
                     UART0_AVISO_TEMP(Lectura);
-                    Control_con_leds(Ventilador,Valvula,Lectura,Sistema)
+                    Control_con_leds(Ventilador,Valvula,Lectura,Sistema);
                     LecturaB = Lectura;
                 }
             }
