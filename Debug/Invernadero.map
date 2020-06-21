@@ -1,33 +1,33 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.0                     
 ******************************************************************************
->> Linked Wed Jun 10 23:10:32 2020
+>> Linked Sat Jun 20 21:28:07 2020
 
 OUTPUT FILE NAME:   <Invernadero.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00000f45
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00001dd9
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00100000  00001280  000fed80  R  X
-  SRAM                  20000000   00040000  00000220  0003fde0  RW X
+  FLASH                 00000000   00100000  00002114  000fdeec  R  X
+  SRAM                  20000000   00040000  0000022c  0003fdd4  RW X
 
 
 SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00001280   00001280    r-x
+00000000    00000000    00002118   00002118    r-x
   00000000    00000000    00000208   00000208    r-- .intvecs
-  00000208    00000208    00000df4   00000df4    r-x .text
-  00000ffc    00000ffc    00000254   00000254    r-- .const
-  00001250    00001250    00000030   00000030    r-- .cinit
-20000000    20000000    00000220   00000000    rw-
+  00000208    00000208    00001c88   00001c88    r-x .text
+  00001e90    00001e90    00000254   00000254    r-- .const
+  000020e8    000020e8    00000030   00000030    r-- .cinit
+20000000    20000000    0000022c   00000000    rw-
   20000000    20000000    00000200   00000000    rw- .stack
-  20000200    20000200    00000018   00000000    rw- .bss
-  20000218    20000218    00000008   00000000    rw- .data
+  20000200    20000200    00000024   00000000    rw- .bss
+  20000224    20000224    00000008   00000000    rw- .data
 
 
 SECTION ALLOCATION MAP
@@ -38,53 +38,56 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    00000208     
                   00000000    00000208     tm4c1294ncpdt_startup_ccs.obj (.intvecs)
 
-.text      0    00000208    00000df4     
-                  00000208    000006b0     ivernadero.obj (.text)
-                  000008b8    00000200     driverlib.lib : sysctl.obj (.text:SysCtlClockFreqSet)
-                  00000ab8    000001b6     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_add_t2.asm.obj (.text)
-                  00000c6e    000000fc                                   : fd_mul_t2.asm.obj (.text)
-                  00000d6a    0000009c                                   : memcpy_t2.asm.obj (.text)
-                  00000e06    00000068                                   : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00000e6e    00000002     --HOLE-- [fill = 0]
-                  00000e70    00000048     driverlib.lib : sysctl.obj (.text:_SysCtlFrequencyGet)
-                  00000eb8    00000048     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_toi_t2.asm.obj (.text)
-                  00000f00    00000044                                   : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
-                  00000f44    00000034                                   : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
-                  00000f78    00000020     driverlib.lib : sysctl.obj (.text:_SysCtlMemTimingGet)
-                  00000f98    00000020     rtsv7M4_T_le_v4SPD16_eabi.lib : u_tofd_t2.asm.obj (.text)
-                  00000fb8    0000001c                                   : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  00000fd4    0000000e                                   : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  00000fe2    0000000c     tm4c1294ncpdt_startup_ccs.obj (.text)
-                  00000fee    00000006     driverlib.lib : sysctl.obj (.text:SysCtlDelay)
-                  00000ff4    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  00000ff8    00000004                                   : exit.c.obj (.text:abort:abort)
+.text      0    00000208    00001c88     
+                  00000208    00001544     ivernadero.obj (.text)
+                  0000174c    00000200     driverlib.lib : sysctl.obj (.text:SysCtlClockFreqSet)
+                  0000194c    000001b6     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_add_t2.asm.obj (.text)
+                  00001b02    000000fc                                   : fd_mul_t2.asm.obj (.text)
+                  00001bfe    0000009c                                   : memcpy_t2.asm.obj (.text)
+                  00001c9a    00000068                                   : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00001d02    00000002     --HOLE-- [fill = 0]
+                  00001d04    00000048     driverlib.lib : sysctl.obj (.text:_SysCtlFrequencyGet)
+                  00001d4c    00000048     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_toi_t2.asm.obj (.text)
+                  00001d94    00000044                                   : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  00001dd8    00000034                                   : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
+                  00001e0c    00000020     driverlib.lib : sysctl.obj (.text:_SysCtlMemTimingGet)
+                  00001e2c    00000020     rtsv7M4_T_le_v4SPD16_eabi.lib : u_tofd_t2.asm.obj (.text)
+                  00001e4c    0000001c                                   : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  00001e68    0000000e                                   : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00001e76    0000000c     tm4c1294ncpdt_startup_ccs.obj (.text)
+                  00001e82    00000006     driverlib.lib : sysctl.obj (.text:SysCtlDelay)
+                  00001e88    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  00001e8c    00000004                                   : exit.c.obj (.text:abort:abort)
 
-.const     0    00000ffc    00000254     
-                  00000ffc    000001b0     driverlib.lib : sysctl.obj (.const:g_pppui32XTALtoVCO)
-                  000011ac    0000006c                   : sysctl.obj (.const:g_pui32Xtals)
-                  00001218    00000030                   : sysctl.obj (.const:g_sXTALtoMEMTIM)
-                  00001248    00000008                   : sysctl.obj (.const)
+.const     0    00001e90    00000254     
+                  00001e90    000001b0     driverlib.lib : sysctl.obj (.const:g_pppui32XTALtoVCO)
+                  00002040    0000006c                   : sysctl.obj (.const:g_pui32Xtals)
+                  000020ac    00000030                   : sysctl.obj (.const:g_sXTALtoMEMTIM)
+                  000020dc    00000008                   : sysctl.obj (.const)
 
-.cinit     0    00001250    00000030     
-                  00001250    0000000c     (__TI_handler_table)
-                  0000125c    0000000a     (.cinit..data.load) [load image, compression = lzss]
-                  00001266    00000002     --HOLE-- [fill = 0]
-                  00001268    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  00001270    00000010     (__TI_cinit_table)
+.cinit     0    000020e8    00000030     
+                  000020e8    0000000c     (__TI_handler_table)
+                  000020f4    0000000a     (.cinit..data.load) [load image, compression = lzss]
+                  000020fe    00000002     --HOLE-- [fill = 0]
+                  00002100    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00002108    00000010     (__TI_cinit_table)
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
 
-.bss       0    20000200    00000018     UNINITIALIZED
+.bss       0    20000200    00000024     UNINITIALIZED
                   20000200    00000004     (.common:DATO32BIT)
-                  20000204    00000004     (.common:Salida)
-                  20000208    00000004     (.common:SalidaB)
-                  2000020c    00000004     (.common:a)
-                  20000210    00000004     (.common:b)
-                  20000214    00000004     (.common:g_ui32SysClock)
+                  20000204    00000004     (.common:Lectura)
+                  20000208    00000004     (.common:LecturaB)
+                  2000020c    00000004     (.common:Sistema)
+                  20000210    00000004     (.common:Valvula)
+                  20000214    00000004     (.common:Ventilador)
+                  20000218    00000004     (.common:a)
+                  2000021c    00000004     (.common:b)
+                  20000220    00000004     (.common:g_ui32SysClock)
 
-.data      0    20000218    00000008     UNINITIALIZED
-                  20000218    00000008     ivernadero.obj (.data)
+.data      0    20000224    00000008     UNINITIALIZED
+                  20000224    00000008     ivernadero.obj (.data)
 
 .stack     0    20000000    00000200     UNINITIALIZED
                   20000000    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
@@ -98,10 +101,10 @@ MODULE SUMMARY
        Module                          code   ro data   rw data
        ------                          ----   -------   -------
     .\
-       ivernadero.obj                  1712   0         32     
+       ivernadero.obj                  5444   0         44     
        tm4c1294ncpdt_startup_ccs.obj   12     520       0      
     +--+-------------------------------+------+---------+---------+
-       Total:                          1724   520       32     
+       Total:                          5456   520       44     
                                                                
     C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/ccs/Debug/driverlib.lib
        sysctl.obj                      622    596       0      
@@ -127,19 +130,19 @@ MODULE SUMMARY
        Stack:                          0      0         512    
        Linker Generated:               0      46        0      
     +--+-------------------------------+------+---------+---------+
-       Grand Total:                    3570   1162      544    
+       Grand Total:                    7302   1162      556    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00001270 records: 2, size/record: 8, table size: 16
-	.data: load addr=0000125c, load size=0000000a bytes, run addr=20000218, run size=00000008 bytes, compression=lzss
-	.bss: load addr=00001268, load size=00000008 bytes, run addr=20000200, run size=00000018 bytes, compression=zero_init
+__TI_cinit_table @ 00002108 records: 2, size/record: 8, table size: 16
+	.data: load addr=000020f4, load size=0000000a bytes, run addr=20000224, run size=00000008 bytes, compression=lzss
+	.bss: load addr=00002100, load size=00000008 bytes, run addr=20000200, run size=00000024 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00001250 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 000020e8 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -149,75 +152,88 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                          
 -------   ----                          
-00000529  ApagadoTotal                  
-00000ff9  C$$EXIT                       
+0000075d  ApagadoTotal                  
+00001e8d  C$$EXIT                       
+00001621  Control_con_leds              
 20000200  DATO32BIT                     
-00000209  EncenderLM35                  
-000005b1  Encendido_RS32                
-00000665  IMP_NOMBRES                   
-00000629  INIC_PORTS                    
-0000029f  ReadSensorValue               
-00000fe3  ResetISR                      
-20000204  Salida                        
-20000208  SalidaB                       
-000002d5  SendValue                     
-000008b9  SysCtlClockFreqSet            
-00000fef  SysCtlDelay                   
-00000555  TMR4                          
-00000679  UART0_AVISO_TEMP              
-0000064d  UART0_dato                    
+000004c3  EncenderLM35                  
+0000078d  EncendidoTotal                
+00000859  Encendido_RS32                
+000007f9  HandlerJ                      
+000009a9  IMP_NOMBRES                   
+20000204  Lectura                       
+20000208  LecturaB                      
+0000073d  ParametrosIniciales           
+00000565  ReadSensorValue               
+00001e77  ResetISR                      
+000005e5  SendValue                     
+2000020c  Sistema                       
+0000174d  SysCtlClockFreqSet            
+00001e83  SysCtlDelay                   
+000007c5  TMR4                          
+00000fa3  UART0_AVISO_SISTEMA           
+0000149d  UART0_AVISO_TEMP              
+0000118f  UART0_AVISO_VALVULA           
+00001087  UART0_AVISO_VENTILADOR        
+000008d9  UART0_dato                    
+20000210  Valvula                       
+20000214  Ventilador                    
 20000200  __STACK_END                   
 00000200  __STACK_SIZE                  
 20000200  __STACK_TOP                   
-00001270  __TI_CINIT_Base               
-00001280  __TI_CINIT_Limit              
-00001250  __TI_Handler_Table_Base       
-0000125c  __TI_Handler_Table_Limit      
-00000f01  __TI_auto_init_nobinit_nopinit
-00000e07  __TI_decompress_lzss          
-00000fd5  __TI_decompress_none          
+00002108  __TI_CINIT_Base               
+00002118  __TI_CINIT_Limit              
+000020e8  __TI_Handler_Table_Base       
+000020f4  __TI_Handler_Table_Limit      
+00001d95  __TI_auto_init_nobinit_nopinit
+00001c9b  __TI_decompress_lzss          
+00001e69  __TI_decompress_none          
 ffffffff  __TI_pprof_out_hndl           
 ffffffff  __TI_prof_data_size           
 ffffffff  __TI_prof_data_start          
 00000000  __TI_static_base__            
-00000fb9  __TI_zero_init_nomemset       
-00000eb9  __aeabi_d2iz                  
-00000ac3  __aeabi_dadd                  
-00000c6f  __aeabi_dmul                  
-00000ab9  __aeabi_dsub                  
-00000d6b  __aeabi_memcpy                
-00000d6b  __aeabi_memcpy4               
-00000d6b  __aeabi_memcpy8               
-00000f99  __aeabi_ui2d                  
+00001e4d  __TI_zero_init_nomemset       
+00001d4d  __aeabi_d2iz                  
+00001957  __aeabi_dadd                  
+00001b03  __aeabi_dmul                  
+0000194d  __aeabi_dsub                  
+00001bff  __aeabi_memcpy                
+00001bff  __aeabi_memcpy4               
+00001bff  __aeabi_memcpy8               
+00001e2d  __aeabi_ui2d                  
 ffffffff  __binit__                     
 ffffffff  __c_args__                    
 UNDEFED   __mpu_init                    
 20000000  __stack                       
 20000000  __start___llvm_prf_cnts       
 20000000  __stop___llvm_prf_cnts        
-00000f45  _c_int00_noargs               
+00001dd9  _c_int00_noargs               
 UNDEFED   _system_post_cinit            
-00000ff5  _system_pre_init              
-2000020c  a                             
-00000ff9  abort                         
-0000045f  abrir_valvula                 
-000003e5  apagado                       
-20000210  b                             
+00001e89  _system_pre_init              
+20000218  a                             
+00001e8d  abort                         
+00000435  abrir_valvula                 
+00000209  apagado                       
+2000021c  b                             
 ffffffff  binit                         
-00000451  cerrar_valvula                
-000004d5  conftmrs                      
+000003f7  cerrar_valvula                
+000006e3  confT4                        
+00001605  config_puertos_leds           
+00000211  config_puertos_timers         
 00000000  g_pfnVectors                  
-20000214  g_ui32SysClock                
-000003ed  giro_1                        
-0000041f  giro_2                        
-000007e5  main                          
-00000d6b  memcpy                        
-20000218  numero_pasos                  
-0000036d  pasos_1                       
-000003a9  pasos_2                       
-000004a9  setclock                      
-000004bb  setports                      
-2000021c  timeout                       
+20000220  g_ui32SysClock                
+00000393  giro_1                        
+000003c5  giro_2                        
+000016d9  main                          
+00001bff  memcpy                        
+20000224  numero_pasos                  
+000002eb  off_ventilador                
+000002a3  on_ventilador                 
+0000031b  pasos_1                       
+00000357  pasos_2                       
+0000067d  setclock                      
+00000695  setportsGPIO                  
+20000228  timeout                       
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -227,64 +243,77 @@ address   name
 00000000  __TI_static_base__            
 00000000  g_pfnVectors                  
 00000200  __STACK_SIZE                  
-00000209  EncenderLM35                  
-0000029f  ReadSensorValue               
-000002d5  SendValue                     
-0000036d  pasos_1                       
-000003a9  pasos_2                       
-000003e5  apagado                       
-000003ed  giro_1                        
-0000041f  giro_2                        
-00000451  cerrar_valvula                
-0000045f  abrir_valvula                 
-000004a9  setclock                      
-000004bb  setports                      
-000004d5  conftmrs                      
-00000529  ApagadoTotal                  
-00000555  TMR4                          
-000005b1  Encendido_RS32                
-00000629  INIC_PORTS                    
-0000064d  UART0_dato                    
-00000665  IMP_NOMBRES                   
-00000679  UART0_AVISO_TEMP              
-000007e5  main                          
-000008b9  SysCtlClockFreqSet            
-00000ab9  __aeabi_dsub                  
-00000ac3  __aeabi_dadd                  
-00000c6f  __aeabi_dmul                  
-00000d6b  __aeabi_memcpy                
-00000d6b  __aeabi_memcpy4               
-00000d6b  __aeabi_memcpy8               
-00000d6b  memcpy                        
-00000e07  __TI_decompress_lzss          
-00000eb9  __aeabi_d2iz                  
-00000f01  __TI_auto_init_nobinit_nopinit
-00000f45  _c_int00_noargs               
-00000f99  __aeabi_ui2d                  
-00000fb9  __TI_zero_init_nomemset       
-00000fd5  __TI_decompress_none          
-00000fe3  ResetISR                      
-00000fef  SysCtlDelay                   
-00000ff5  _system_pre_init              
-00000ff9  C$$EXIT                       
-00000ff9  abort                         
-00001250  __TI_Handler_Table_Base       
-0000125c  __TI_Handler_Table_Limit      
-00001270  __TI_CINIT_Base               
-00001280  __TI_CINIT_Limit              
+00000209  apagado                       
+00000211  config_puertos_timers         
+000002a3  on_ventilador                 
+000002eb  off_ventilador                
+0000031b  pasos_1                       
+00000357  pasos_2                       
+00000393  giro_1                        
+000003c5  giro_2                        
+000003f7  cerrar_valvula                
+00000435  abrir_valvula                 
+000004c3  EncenderLM35                  
+00000565  ReadSensorValue               
+000005e5  SendValue                     
+0000067d  setclock                      
+00000695  setportsGPIO                  
+000006e3  confT4                        
+0000073d  ParametrosIniciales           
+0000075d  ApagadoTotal                  
+0000078d  EncendidoTotal                
+000007c5  TMR4                          
+000007f9  HandlerJ                      
+00000859  Encendido_RS32                
+000008d9  UART0_dato                    
+000009a9  IMP_NOMBRES                   
+00000fa3  UART0_AVISO_SISTEMA           
+00001087  UART0_AVISO_VENTILADOR        
+0000118f  UART0_AVISO_VALVULA           
+0000149d  UART0_AVISO_TEMP              
+00001605  config_puertos_leds           
+00001621  Control_con_leds              
+000016d9  main                          
+0000174d  SysCtlClockFreqSet            
+0000194d  __aeabi_dsub                  
+00001957  __aeabi_dadd                  
+00001b03  __aeabi_dmul                  
+00001bff  __aeabi_memcpy                
+00001bff  __aeabi_memcpy4               
+00001bff  __aeabi_memcpy8               
+00001bff  memcpy                        
+00001c9b  __TI_decompress_lzss          
+00001d4d  __aeabi_d2iz                  
+00001d95  __TI_auto_init_nobinit_nopinit
+00001dd9  _c_int00_noargs               
+00001e2d  __aeabi_ui2d                  
+00001e4d  __TI_zero_init_nomemset       
+00001e69  __TI_decompress_none          
+00001e77  ResetISR                      
+00001e83  SysCtlDelay                   
+00001e89  _system_pre_init              
+00001e8d  C$$EXIT                       
+00001e8d  abort                         
+000020e8  __TI_Handler_Table_Base       
+000020f4  __TI_Handler_Table_Limit      
+00002108  __TI_CINIT_Base               
+00002118  __TI_CINIT_Limit              
 20000000  __stack                       
 20000000  __start___llvm_prf_cnts       
 20000000  __stop___llvm_prf_cnts        
 20000200  DATO32BIT                     
 20000200  __STACK_END                   
 20000200  __STACK_TOP                   
-20000204  Salida                        
-20000208  SalidaB                       
-2000020c  a                             
-20000210  b                             
-20000214  g_ui32SysClock                
-20000218  numero_pasos                  
-2000021c  timeout                       
+20000204  Lectura                       
+20000208  LecturaB                      
+2000020c  Sistema                       
+20000210  Valvula                       
+20000214  Ventilador                    
+20000218  a                             
+2000021c  b                             
+20000220  g_ui32SysClock                
+20000224  numero_pasos                  
+20000228  timeout                       
 ffffffff  __TI_pprof_out_hndl           
 ffffffff  __TI_prof_data_size           
 ffffffff  __TI_prof_data_start          
@@ -294,4 +323,4 @@ ffffffff  binit
 UNDEFED   __mpu_init                    
 UNDEFED   _system_post_cinit            
 
-[69 symbols]
+[82 symbols]
