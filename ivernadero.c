@@ -56,7 +56,7 @@ void Control_con_leds(int led_Vent,int led_Valv,int led_T, int led_Sistema);
 
 uint32_t Lectura, LecturaB, DATO32BIT, g_ui32SysClock, Ventilador, Valvula,Sistema ;
 uint8_t DATO8BIT;
-int a, b, x;
+int a, b, x, Temp;
 int numero_pasos = 0;
 int timeout = 6;
 
@@ -287,7 +287,7 @@ int timeout = 6;
             ADC0_PSSI_R |= 8;             // EMPEZAR SECUENCIA DE CONVERSION 3
             while(ADC0_RIS_R & 8 == 0);   // Espera por conversion completa
             // Conversion a grados Celcius
-            Lectura = ADC0_SSFIFO3_R*.0758+1;   // Leer el resultado de la conversion
+            Lectura = ADC0_SSFIFO3_R*.0758;   // Leer el resultado de la conversion
             return Lectura;
         }
         int SendValue(int ValorADC,int deadband)
@@ -402,6 +402,7 @@ int timeout = 6;
                 confT4();
                 config_puertos_leds();
                 config_puertos_timers();
+                timeout = 6;
                 Sistema = 1;
                 UART0_AVISO_SISTEMA(1);
                 GPIO_PORTM_DATA_R |= 0b0100000;
@@ -1116,6 +1117,7 @@ int timeout = 6;
                     if(led_Valv==1 && led_Vent==0)
                         {//Si la valvula  esta encendida y el ventilador apagado entonces:
                             cerrar_valvula();
+                            timeout = 6;
                         }
                     if(led_Valv==0 && led_Vent==1)
                         {//Si la valvula esta encendida y el ventilador apagado entonces:
@@ -1171,7 +1173,8 @@ int timeout = 6;
             while(1)
             {
                 // Lectura del sensor
-                Lectura = SendValue(ReadSensorValue(),2);  // Lectura -> 1   LecturaB -> 1
+                Temp = ReadSensorValue();
+                Lectura = SendValue(Temp,2);  // Lectura -> 1   LecturaB -> 1
                 // Bucle de cambio de estado
                 if (Lectura != LecturaB)
                 {
